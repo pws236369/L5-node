@@ -14,8 +14,23 @@ const server = http.createServer((req, res) => {
   } else if (req.url.match(/\/api\/segel\/\w+/) && req.method === "GET") {
     // RegExp. Read about it!
     const id = req.url.split("/")[3];
+    res.writeHeader(200, { "Content-Type": "application/json" }); // Status & header
     res.write(JSON.stringify(data[id])); // build in js function, to convert json to a string
     res.end();
+  } else if (req.url === "/api/segel" && req.method === "POST") {
+    // We want to get data from the body.
+    let body = "";
+    req.on("data", (buff) => {
+      body += buff.toString();
+    });
+    req.on("end", () => {
+      const newElement = JSON.parse(body); // conver string to a json object.
+      data.push(newElement);
+
+      res.writeHeader(201, { "Content-Type": "application/json" }); // Status & header
+      res.write(JSON.stringify("done")); // build in js function, to convert json to a string
+      res.end();
+    });
   } else {
     res.writeHeader(404, { "Content-Type": "text/html" }); // Status & header
     res.write("<h1>Not found :( </h1>");
