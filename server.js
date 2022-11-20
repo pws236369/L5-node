@@ -1,11 +1,13 @@
 const http = require("http"); // build in in node js 🤓
 
-const server = http.createServer((req, res) => {
-  // We are getting request, and retturing a response.
+const data = [
+  { name: "nissan", age: 28 },
+  { name: "adi", age: 82 },
+];
 
-  // We want to send some HTML! :)
-  res.setHeader("Content-Type", "text/html");
-  res.write("<h1>Pickle Rick!!!</h2>");
+const server = http.createServer((req, res) => {
+  res.writeHeader(200, { "Content-Type": "application/json" }); // Status & header
+  res.write(JSON.stringify(data)); // build in js function, to convert json to a string
   res.end();
 });
 
