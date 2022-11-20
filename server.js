@@ -6,7 +6,8 @@ const data = [
 ];
 
 const server = http.createServer((req, res) => {
-  if (req.url === "/api/segel") {
+  if (req.url === "/api/segel" && req.method === "GET") {
+    // We need to add the method!
     res.writeHeader(200, { "Content-Type": "application/json" }); // Status & header
     res.write(JSON.stringify(data)); // build in js function, to convert json to a string
     res.end();
